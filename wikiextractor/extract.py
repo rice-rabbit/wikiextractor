@@ -207,11 +207,13 @@ def compact(text, mark_headers=False):
             lev = len(m.group(1))
             if Extractor.HtmlFormatting:
                 page.append("<h%d>%s</h%d>" % (lev, title, lev))
-            if title and title[-1] not in '!?':
-                title += '.'
 
+            # Change section title style
+            #if title and title[-1] not in '!?':
+            #    title += '.'
             if mark_headers:
-                title = "## " + title
+                #title = "## " + title
+                title = '###section' + str(lev) + '###' + title
 
             headers[lev] = title
             # drop previous headers
@@ -460,6 +462,11 @@ def replaceInternalLinks(text):
             trail = ''
             end = e
         inner = text[s + 2:e - 2]
+
+        # Can preserve categories
+        #if len(inner) > 3 and inner[:3] == '분류:':
+        #    continue
+
         # find first |
         pipe = inner.find('|')
         if pipe < 0:
@@ -854,7 +861,7 @@ class Extractor():
         """
         logging.debug("%s\t%s", self.id, self.title)
         text = ''.join(self.page)
-        text = self.clean_text(text, html_safe=html_safe)
+        text = self.clean_text(text, mark_headers=True, html_safe=html_safe) # Preserve section title by 'mark_headers'
 
         if self.to_json:
             json_data = {
