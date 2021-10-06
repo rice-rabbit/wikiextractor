@@ -213,7 +213,7 @@ def compact(text, mark_headers=False):
             #    title += '.'
             if mark_headers:
                 #title = "## " + title
-                title = '#LeveL' + str(lev - 1) + '#' + title
+                title = '#LeveL' + str(lev - 1) + '# ' + title
 
             headers[lev] = title
             # drop previous headers
